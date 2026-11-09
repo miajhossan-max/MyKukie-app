@@ -1,0 +1,873 @@
+```html
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Kukie Live App UI</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- FontAwesome for Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Font: Hind Siliguri / Inter -->
+    <link href="https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@400;500;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        brand: {
+                            purple: '#8B5CF6',
+                            pink: '#EC4899',
+                            dark: '#0F0F17',
+                            card: '#1C1B29',
+                            cardLight: '#FFFFFF',
+                            accent: '#F43F5E'
+                        }
+                    },
+                    fontFamily: {
+                        sans: ['Hind Siliguri', 'Inter', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body {
+            font-family: 'Hind Siliguri', 'Inter', sans-serif;
+            background-color: #09090E;
+            color: #E2E8F0;
+            user-select: none;
+            -webkit-user-select: none;
+        }
+
+        /* Custom Mobile Frame Scrollbar Hide */
+        .no-scrollbar::-webkit-scrollbar {
+            display: none;
+        }
+        .no-scrollbar {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+
+        /* Glassmorphism utility */
+        .glass {
+            background: rgba(255, 255, 255, 0.07);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .glass-dark {
+            background: rgba(15, 15, 23, 0.75);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+        }
+
+        /* Gradient Button */
+        .btn-gradient {
+            background: linear-gradient(135deg, #A855F7 0%, #EC4899 100%);
+        }
+
+        .btn-gold {
+            background: linear-gradient(135deg, #F59E0B 0%, #FBBF24 100%);
+        }
+
+        /* Ripple effect animation */
+        @keyframes pulse-ring {
+            0% { transform: scale(0.95); opacity: 0.8; }
+            50% { transform: scale(1.05); opacity: 0.4; }
+            100% { transform: scale(0.95); opacity: 0.8; }
+        }
+        .animate-pulse-slow {
+            animation: pulse-ring 3s infinite ease-in-out;
+        }
+    </style>
+</head>
+<body class="flex items-center justify-center min-h-screen p-0 sm:p-4 bg-slate-950">
+
+    <!-- Mobile Device Frame Simulator -->
+    <div class="relative w-full max-w-md h-[100vh] sm:h-[880px] bg-[#0F0F17] sm:rounded-[40px] shadow-2xl overflow-hidden flex flex-col border border-slate-800">
+
+        <!-- Top Status Bar Simulation -->
+        <div class="px-5 pt-3 pb-2 flex justify-between items-center text-xs text-gray-400 z-50 select-none bg-black/20">
+            <span class="font-semibold text-white">8:48</span>
+            <div class="flex items-center space-x-2">
+                <i class="fa-solid fa-wifi"></i>
+                <i class="fa-solid fa-signal"></i>
+                <i class="fa-solid fa-battery-three-quarters text-emerald-400"></i>
+            </div>
+        </div>
+
+        <!-- APP SCREENS CONTAINER -->
+        <div id="app-viewport" class="flex-1 relative overflow-hidden flex flex-col">
+
+            <!-- ------------------------------------------------------------- -->
+            <!-- SCREEN 0: LOGIN & SPLASH SCREEN -->
+            <!-- ------------------------------------------------------------- -->
+            <div id="screen-login" class="absolute inset-0 z-40 bg-[#0F0F17] flex flex-col justify-between p-6 overflow-y-auto no-scrollbar">
+                <!-- Grid Photo Background Simulation -->
+                <div class="absolute inset-0 grid grid-cols-2 gap-3 opacity-25 p-3 overflow-hidden pointer-events-none">
+                    <div class="bg-slate-800 rounded-2xl h-44 border border-white/10 flex items-center justify-center">
+                        <i class="fa-regular fa-image text-3xl text-gray-600"></i>
+                    </div>
+                    <div class="bg-slate-800 rounded-2xl h-56 border border-white/10 flex items-center justify-center">
+                        <i class="fa-regular fa-image text-3xl text-gray-600"></i>
+                    </div>
+                    <div class="bg-slate-800 rounded-2xl h-52 border border-white/10 flex items-center justify-center">
+                        <i class="fa-regular fa-image text-3xl text-gray-600"></i>
+                    </div>
+                    <div class="bg-slate-800 rounded-2xl h-40 border border-white/10 flex items-center justify-center">
+                        <i class="fa-regular fa-image text-3xl text-gray-600"></i>
+                    </div>
+                </div>
+
+                <!-- App Branding -->
+                <div class="relative z-10 pt-12 text-center">
+                    <h1 class="text-5xl font-extrabold tracking-wider text-white drop-shadow-md mb-2" style="font-family: sans-serif;">KUKIE</h1>
+                    <p class="text-xs text-gray-400 tracking-wide">লাইভ ভয়েস রুম এবং সোশ্যাল প্ল্যাটফর্ম</p>
+                </div>
+
+                <!-- Login Buttons Section -->
+                <div class="relative z-10 space-y-3 mb-6">
+                    <!-- Quick Start Button -->
+                    <button onclick="switchTab('profile')" class="w-full btn-gradient py-3.5 px-6 rounded-full font-bold text-white shadow-lg shadow-purple-500/30 flex items-center justify-center space-x-2 text-base active:scale-95 transition">
+                        <i class="fa-solid fa-bolt"></i>
+                        <span>এখনই শুরু করুন</span>
+                    </button>
+
+                    <!-- Google Sign In -->
+                    <button onclick="switchTab('profile')" class="w-full bg-white text-gray-800 py-3.5 px-6 rounded-full font-semibold flex items-center justify-center space-x-3 text-sm active:scale-95 transition">
+                        <svg class="w-5 h-5" viewBox="0 0 24 24">
+                            <path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/>
+                            <path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/>
+                            <path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.06H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.94l2.85-2.22.81-.63z"/>
+                            <path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.06l3.66 2.84c.87-2.6 3.3-4.52 6.16-4.52z"/>
+                        </svg>
+                        <span>Continue with Google</span>
+                    </button>
+
+                    <!-- Secondary Login Methods Grid -->
+                    <div class="grid grid-cols-2 gap-3 pt-2">
+                        <button onclick="switchTab('profile')" class="bg-gray-800/80 hover:bg-gray-800 text-white py-3 px-4 rounded-2xl flex flex-col items-center justify-center space-y-1 border border-white/10 active:scale-95 transition">
+                            <i class="fa-brands fa-facebook text-blue-500 text-xl"></i>
+                            <span class="text-xs">Facebook</span>
+                        </button>
+
+                        <div class="relative">
+                            <span class="absolute -top-2 right-2 bg-rose-500 text-[10px] text-white px-2 py-0.5 rounded-full z-10 font-bold">শেষ লগইন</span>
+                            <button onclick="showEmailForm()" class="w-full bg-gray-800/80 hover:bg-gray-800 text-white py-3 px-4 rounded-2xl flex flex-col items-center justify-center space-y-1 border border-purple-500/50 active:scale-95 transition">
+                                <i class="fa-solid fa-envelope text-purple-400 text-xl"></i>
+                                <span class="text-xs">Email</span>
+                            </button>
+                        </div>
+                    </div>
+
+                    <p class="text-[11px] text-gray-500 text-center pt-3 leading-relaxed">
+                        চালিয়ে যাওয়ার মাধ্যমে, আপনি আমাদের <span class="underline">পরিষেবার শর্তাবলী</span> এবং <span class="underline">গোপনীয়তা নীতির</span> সাথে সম্মত হচ্ছেন।
+                    </p>
+                </div>
+            </div>
+
+            <!-- Email Entry Popup Modal Screen -->
+            <div id="email-modal" class="hidden absolute inset-0 z-50 bg-[#0F0F17] flex flex-col p-6 animate-fade-in">
+                <button onclick="hideEmailForm()" class="w-10 h-10 rounded-full bg-gray-800 flex items-center justify-center text-gray-300 mb-6">
+                    <i class="fa-solid fa-chevron-left"></i>
+                </button>
+
+                <h2 class="text-2xl font-bold text-white mb-2">ইমেইল দিয়ে চালিয়ে যান</h2>
+                <p class="text-xs text-gray-400 mb-8">আমরা আপনার ইমেইল ঠিকানায় একটি ভেরিফিকেশন লিঙ্ক পাঠাব।</p>
+
+                <div class="relative mb-6">
+                    <i class="fa-regular fa-envelope absolute left-4 top-4 text-purple-400"></i>
+                    <input type="email" placeholder="আপনার ইমেইল ঠিকানা লিখুন" class="w-full bg-gray-900 border border-purple-500/50 rounded-2xl py-3.5 pl-11 pr-4 text-sm text-white focus:outline-none focus:border-purple-400">
+                </div>
+
+                <button onclick="switchTab('profile'); hideEmailForm();" class="w-full bg-gray-800 text-gray-400 py-3.5 rounded-2xl font-semibold text-center cursor-pointer hover:bg-purple-600 hover:text-white transition">
+                    চালিয়ে যান
+                </button>
+            </div>
+
+            <!-- ------------------------------------------------------------- -->
+            <!-- SCREEN 1: LIVE / MAIN DISCOVERY TAB -->
+            <!-- ------------------------------------------------------------- -->
+            <div id="tab-live" class="tab-content hidden absolute inset-0 pb-16 flex flex-col overflow-y-auto no-scrollbar">
+                <!-- Top Header Bar -->
+                <div class="p-4 flex items-center justify-between sticky top-0 bg-[#0F0F17]/90 backdrop-blur z-20">
+                    <div class="flex items-center space-x-3 text-sm font-bold">
+                        <span class="text-purple-400 border-b-2 border-purple-500 pb-1">সাজেস্ট</span>
+                        <span class="text-gray-400 pb-1">জনপ্রিয়</span>
+                        <span class="text-gray-400 pb-1">কাছাকাছি</span>
+                    </div>
+                    <div class="flex items-center space-x-3">
+                        <button class="w-8 h-8 rounded-full bg-gray-800 flex items-center justify-center text-gray-300">
+                            <i class="fa-solid fa-magnifying-glass text-xs"></i>
+                        </button>
+                        <button class="w-8 h-8 rounded-full bg-gray-800 flex items-center justify-center text-gray-300">
+                            <i class="fa-solid fa-gamepad text-xs"></i>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Daily Banner Grid -->
+                <div class="px-4 mb-4">
+                    <div class="w-full h-32 rounded-2xl btn-gradient p-4 flex flex-col justify-between relative overflow-hidden">
+                        <div class="z-10">
+                            <span class="bg-black/30 text-white text-[10px] px-2 py-0.5 rounded-full">ডেইলি জ্যাকপট</span>
+                            <h3 class="text-lg font-bold text-white mt-1">দৈনিক পুরষ্কার জিতুন</h3>
+                        </div>
+                        <button class="z-10 w-max bg-white text-purple-700 text-xs font-bold py-1.5 px-4 rounded-full">অংশ নিন</button>
+                        <i class="fa-solid fa-trophy absolute -right-3 -bottom-3 text-7xl text-white/20"></i>
+                    </div>
+                </div>
+
+                <!-- Room Grid (Blank UI Placeholders) -->
+                <div class="px-4 mb-2 flex justify-between items-center">
+                    <h3 class="font-bold text-sm text-white">লাইভ অডিও রুমসমূহ</h3>
+                    <span class="text-xs text-purple-400">সব দেখুন</span>
+                </div>
+
+                <div class="px-4 grid grid-cols-2 gap-3 pb-6">
+                    <!-- Room Item 1 -->
+                    <div onclick="openPartyRoom()" class="bg-gray-900 rounded-2xl overflow-hidden border border-white/5 relative group cursor-pointer">
+                        <div class="h-36 bg-slate-800 flex items-center justify-center relative">
+                            <!-- Avatar Placeholder -->
+                            <div class="w-14 h-14 rounded-full bg-slate-700 border-2 border-purple-500 flex items-center justify-center">
+                                <i class="fa-solid fa-user text-slate-500"></i>
+                            </div>
+                            <span class="absolute top-2 left-2 bg-purple-600/80 text-[10px] px-2 py-0.5 rounded-full text-white flex items-center gap-1">
+                                <i class="fa-solid fa-signal text-[8px]"></i> লাইভ
+                            </span>
+                        </div>
+                        <div class="p-2.5">
+                            <div class="h-4 bg-slate-800 rounded w-3/4 mb-1.5"></div>
+                            <div class="flex items-center justify-between text-gray-400 text-[11px]">
+                                <span class="bg-gray-800 px-2 py-0.5 rounded text-[10px]">অডিও ক্লাব</span>
+                                <span><i class="fa-solid fa-fire text-amber-500 mr-1"></i>--</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Room Item 2 -->
+                    <div onclick="openPartyRoom()" class="bg-gray-900 rounded-2xl overflow-hidden border border-white/5 relative group cursor-pointer">
+                        <div class="h-36 bg-slate-800 flex items-center justify-center relative">
+                            <div class="w-14 h-14 rounded-full bg-slate-700 border-2 border-purple-500 flex items-center justify-center">
+                                <i class="fa-solid fa-user text-slate-500"></i>
+                            </div>
+                            <span class="absolute top-2 left-2 bg-purple-600/80 text-[10px] px-2 py-0.5 rounded-full text-white flex items-center gap-1">
+                                <i class="fa-solid fa-signal text-[8px]"></i> লাইভ
+                            </span>
+                        </div>
+                        <div class="p-2.5">
+                            <div class="h-4 bg-slate-800 rounded w-2/3 mb-1.5"></div>
+                            <div class="flex items-center justify-between text-gray-400 text-[11px]">
+                                <span class="bg-gray-800 px-2 py-0.5 rounded text-[10px]">আড্ডা</span>
+                                <span><i class="fa-solid fa-fire text-amber-500 mr-1"></i>--</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ------------------------------------------------------------- -->
+            <!-- SCREEN 2: MOMENTS / FEED TAB -->
+            <!-- ------------------------------------------------------------- -->
+            <div id="tab-moments" class="tab-content hidden absolute inset-0 pb-16 flex flex-col overflow-y-auto no-scrollbar">
+                <!-- Header Tabs -->
+                <div class="p-4 sticky top-0 bg-[#0F0F17]/90 backdrop-blur z-20 flex justify-between items-center">
+                    <div class="flex space-x-4 text-sm font-bold">
+                        <span class="text-purple-400 border-b-2 border-purple-500 pb-1">ট্রেন্ডিং</span>
+                        <span class="text-gray-400 pb-1">ফলো করা</span>
+                    </div>
+                    <i class="fa-solid fa-paper-plane text-purple-400"></i>
+                </div>
+
+                <!-- Posts List -->
+                <div class="px-4 space-y-4 pb-6">
+                    <!-- Post Card 1 -->
+                    <div class="bg-gray-900/80 rounded-2xl p-4 border border-white/5 space-y-3">
+                        <div class="flex items-center justify-between">
+                            <div class="flex items-center space-x-3">
+                                <div class="w-10 h-10 rounded-full bg-slate-800 flex items-center justify-center border border-purple-500/40">
+                                    <i class="fa-solid fa-user text-slate-600"></i>
+                                </div>
+                                <div>
+                                    <div class="h-4 w-24 bg-slate-800 rounded"></div>
+                                    <div class="h-3 w-16 bg-slate-800/60 rounded mt-1"></div>
+                                </div>
+                            </div>
+                            <button class="bg-purple-600/20 text-purple-400 text-xs px-3 py-1 rounded-full font-medium">
+                                + ফলো
+                            </button>
+                        </div>
+
+                        <!-- Post Text -->
+                        <div class="space-y-1.5">
+                            <div class="h-3.5 bg-slate-800/80 rounded w-full"></div>
+                            <div class="h-3.5 bg-slate-800/80 rounded w-4/5"></div>
+                        </div>
+
+                        <!-- Image Grid Placeholder -->
+                        <div class="grid grid-cols-3 gap-1.5 pt-1">
+                            <div class="h-24 bg-slate-800 rounded-lg flex items-center justify-center"><i class="fa-regular fa-image text-slate-700 text-xl"></i></div>
+                            <div class="h-24 bg-slate-800 rounded-lg flex items-center justify-center"><i class="fa-regular fa-image text-slate-700 text-xl"></i></div>
+                            <div class="h-24 bg-slate-800 rounded-lg flex items-center justify-center"><i class="fa-regular fa-image text-slate-700 text-xl"></i></div>
+                        </div>
+
+                        <!-- Post Actions -->
+                        <div class="flex items-center justify-between pt-2 text-xs text-gray-400 border-t border-white/5">
+                            <div class="flex items-center space-x-1"><i class="fa-regular fa-heart"></i><span>--</span></div>
+                            <div class="flex items-center space-x-1"><i class="fa-regular fa-comment"></i><span>--</span></div>
+                            <div class="flex items-center space-x-1"><i class="fa-solid fa-share-nodes"></i></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ------------------------------------------------------------- -->
+            <!-- SCREEN 3: ROOMS LIST / CREATION TAB -->
+            <!-- ------------------------------------------------------------- -->
+            <div id="tab-rooms" class="tab-content hidden absolute inset-0 pb-16 flex flex-col justify-center items-center p-6 text-center">
+                <div class="w-20 h-20 rounded-full bg-purple-600/20 flex items-center justify-center mb-4">
+                    <i class="fa-solid fa-microphone-lines text-3xl text-purple-400"></i>
+                </div>
+                <h2 class="text-xl font-bold text-white mb-1">পার্টি রুম চালু করুন</h2>
+                <p class="text-xs text-gray-400 mb-6">বন্ধুদের সাথে বিনামূল্যে ভয়েস চ্যাট এবং গান গাওয়ার জন্য নিজস্ব রুম তৈরি করুন।</p>
+                <button onclick="openPartyRoom()" class="btn-gradient px-8 py-3.5 rounded-full text-white font-bold text-sm shadow-lg shadow-purple-500/40">
+                    রুম প্রবেশ করুন
+                </button>
+            </div>
+
+            <!-- ------------------------------------------------------------- -->
+            <!-- SCREEN 4: CHATS TAB -->
+            <!-- ------------------------------------------------------------- -->
+            <div id="tab-chats" class="tab-content hidden absolute inset-0 pb-16 flex flex-col overflow-y-auto no-scrollbar">
+                <!-- Header -->
+                <div class="p-4 sticky top-0 bg-[#0F0F17]/90 backdrop-blur z-20 flex justify-between items-center border-b border-white/5">
+                    <div class="flex space-x-6 text-base font-bold">
+                        <span class="text-white border-b-2 border-purple-500 pb-1">মেসেজ</span>
+                        <span class="text-gray-400 pb-1">কনট্যাক্টস</span>
+                    </div>
+                    <div class="flex space-x-3 text-gray-400">
+                        <i class="fa-solid fa-phone"></i>
+                        <i class="fa-solid fa-ellipsis-vertical"></i>
+                    </div>
+                </div>
+
+                <!-- Chat Threads List -->
+                <div class="divide-y divide-white/5">
+                    <!-- Chat Item Official -->
+                    <div class="p-4 flex items-center space-x-3 hover:bg-white/5 transition cursor-pointer">
+                        <div class="w-12 h-12 rounded-full bg-purple-600 flex items-center justify-center text-white">
+                            <i class="fa-solid fa-shield-halved text-xl"></i>
+                        </div>
+                        <div class="flex-1">
+                            <div class="flex justify-between items-center mb-1">
+                                <h4 class="font-bold text-sm text-white">Kukie Team</h4>
+                                <span class="text-[10px] text-gray-500">04:06 AM</span>
+                            </div>
+                            <p class="text-xs text-gray-400 truncate">নিষ্ক্রিয়তার কারণে অফিশিয়াল নোটিশ...</p>
+                        </div>
+                    </div>
+
+                    <!-- User Chat Item 1 (Placeholder) -->
+                    <div class="p-4 flex items-center space-x-3 hover:bg-white/5 transition cursor-pointer">
+                        <div class="relative">
+                            <div class="w-12 h-12 rounded-full bg-slate-800 border border-white/10 flex items-center justify-center">
+                                <i class="fa-solid fa-user text-slate-600"></i>
+                            </div>
+                            <span class="absolute bottom-0 right-0 w-3 h-3 bg-emerald-500 border-2 border-slate-900 rounded-full"></span>
+                        </div>
+                        <div class="flex-1">
+                            <div class="flex justify-between items-center mb-1">
+                                <div class="h-4 bg-slate-800 rounded w-28"></div>
+                                <span class="text-[10px] text-purple-400 bg-purple-500/20 px-1.5 py-0.5 rounded-full">1</span>
+                            </div>
+                            <div class="h-3 bg-slate-800/60 rounded w-36"></div>
+                        </div>
+                    </div>
+
+                    <!-- User Chat Item 2 (Placeholder) -->
+                    <div class="p-4 flex items-center space-x-3 hover:bg-white/5 transition cursor-pointer">
+                        <div class="w-12 h-12 rounded-full bg-slate-800 border border-white/10 flex items-center justify-center">
+                            <i class="fa-solid fa-user text-slate-600"></i>
+                        </div>
+                        <div class="flex-1">
+                            <div class="flex justify-between items-center mb-1">
+                                <div class="h-4 bg-slate-800 rounded w-20"></div>
+                                <span class="text-[10px] text-gray-500">Yesterday</span>
+                            </div>
+                            <div class="h-3 bg-slate-800/60 rounded w-44"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ------------------------------------------------------------- -->
+            <!-- SCREEN 5: PROFILE / 'আমি' TAB (Matches Screenshots 00:00 & 00:15) -->
+            <!-- ------------------------------------------------------------- -->
+            <div id="tab-profile" class="tab-content absolute inset-0 pb-16 flex flex-col overflow-y-auto no-scrollbar">
+                <!-- Profile Header Banner Area -->
+                <div class="p-5 pt-6 bg-gradient-to-b from-purple-900/30 to-[#0F0F17] relative">
+                    <!-- Top Action Icons -->
+                    <div class="flex justify-between items-center mb-4">
+                        <span class="text-xs text-gray-400">ID: --------</span>
+                        <div class="flex space-x-3 text-gray-300">
+                            <button onclick="openSettings()"><i class="fa-solid fa-gear text-lg"></i></button>
+                        </div>
+                    </div>
+
+                    <!-- User Header Details (Empty Placeholders) -->
+                    <div class="flex items-center space-x-4 mb-4">
+                        <!-- User Avatar Circle Placeholder -->
+                        <div class="relative">
+                            <div class="w-16 h-16 rounded-full bg-slate-800 border-2 border-purple-500 flex items-center justify-center overflow-hidden">
+                                <i class="fa-solid fa-user text-2xl text-slate-600"></i>
+                            </div>
+                            <button class="absolute bottom-0 right-0 w-5 h-5 bg-purple-600 rounded-full flex items-center justify-center text-[10px] text-white">
+                                <i class="fa-solid fa-pen"></i>
+                            </button>
+                        </div>
+
+                        <div class="flex-1 space-y-1">
+                            <!-- Name & Gender Badge -->
+                            <div class="flex items-center space-x-2">
+                                <div class="h-5 bg-slate-800 rounded w-28"></div>
+                                <span class="bg-blue-500/20 text-blue-400 text-[10px] px-2 py-0.5 rounded-full flex items-center gap-1">
+                                    <i class="fa-solid fa-mars"></i> --
+                                </span>
+                                <span class="bg-amber-500/20 text-amber-400 text-[10px] px-2 py-0.5 rounded-full">VIP</span>
+                            </div>
+                            <div class="h-3.5 bg-slate-800/60 rounded w-40"></div>
+                        </div>
+                    </div>
+
+                    <!-- User Counters Grid (Blank Placeholders) -->
+                    <div class="grid grid-cols-4 gap-2 text-center py-2 border-y border-white/5">
+                        <div>
+                            <div class="text-base font-bold text-white">--</div>
+                            <div class="text-[11px] text-gray-400">অভিভাবক</div>
+                        </div>
+                        <div>
+                            <div class="text-base font-bold text-white">--</div>
+                            <div class="text-[11px] text-gray-400">বন্ধু</div>
+                        </div>
+                        <div>
+                            <div class="text-base font-bold text-white">--</div>
+                            <div class="text-[11px] text-gray-400">ফলো করা</div>
+                        </div>
+                        <div>
+                            <div class="text-base font-bold text-white">--</div>
+                            <div class="text-[11px] text-gray-400">ফলোয়ার</div>
+                        </div>
+                    </div>
+
+                    <!-- VIP Center Banner -->
+                    <div class="mt-4 bg-gradient-to-r from-amber-900/40 via-amber-700/20 to-purple-900/40 border border-amber-500/30 rounded-2xl p-3 flex items-center justify-between">
+                        <div class="flex items-center space-x-3">
+                            <div class="w-8 h-8 rounded-full btn-gold flex items-center justify-center text-slate-900 font-bold">
+                                <i class="fa-solid fa-crown text-xs"></i>
+                            </div>
+                            <div>
+                                <h4 class="text-xs font-bold text-amber-300">ভিআইপি সেন্টার</h4>
+                                <p class="text-[10px] text-gray-400">প্রিমিয়াম সুবিধা আনলক করুন</p>
+                            </div>
+                        </div>
+                        <i class="fa-solid fa-circle-chevron-right text-amber-400"></i>
+                    </div>
+                </div>
+
+                <!-- Wallet / Currency Cards Section (Coin & Points) -->
+                <div class="px-5 grid grid-cols-2 gap-3 mb-4">
+                    <!-- Coin Card -->
+                    <div class="bg-slate-900 rounded-2xl p-3.5 border border-amber-500/20 flex flex-col justify-between">
+                        <div class="flex items-center space-x-2 text-amber-400 text-xs font-semibold mb-2">
+                            <i class="fa-solid fa-coins"></i>
+                            <span>আমার কয়েন</span>
+                        </div>
+                        <div class="text-xl font-extrabold text-white">--</div>
+                    </div>
+
+                    <!-- Point Card -->
+                    <div class="bg-slate-900 rounded-2xl p-3.5 border border-purple-500/20 flex flex-col justify-between">
+                        <div class="flex items-center space-x-2 text-purple-400 text-xs font-semibold mb-2">
+                            <i class="fa-solid fa-star"></i>
+                            <span>আমার পয়েন্ট</span>
+                        </div>
+                        <div class="text-xl font-extrabold text-white">--</div>
+                    </div>
+                </div>
+
+                <!-- Profile Action Menu Options -->
+                <div class="px-5 space-y-2 mb-6">
+                    <div class="bg-slate-900/80 rounded-2xl divide-y divide-white/5 border border-white/5 text-sm">
+                        <!-- Task Center -->
+                        <div class="p-3.5 flex items-center justify-between hover:bg-white/5 cursor-pointer">
+                            <div class="flex items-center space-x-3">
+                                <i class="fa-regular fa-calendar-check text-purple-400 text-base"></i>
+                                <span>টাস্ক</span>
+                            </div>
+                            <div class="flex items-center space-x-2">
+                                <span class="bg-amber-500/20 text-amber-400 text-[10px] px-2 py-0.5 rounded-full flex items-center gap-1">
+                                    <i class="fa-solid fa-coins text-[8px]"></i> --
+                                </span>
+                                <i class="fa-solid fa-chevron-right text-xs text-gray-500"></i>
+                            </div>
+                        </div>
+
+                        <!-- Visitors -->
+                        <div class="p-3.5 flex items-center justify-between hover:bg-white/5 cursor-pointer">
+                            <div class="flex items-center space-x-3">
+                                <i class="fa-regular fa-user text-blue-400 text-base"></i>
+                                <span>ভিজিটর</span>
+                            </div>
+                            <i class="fa-solid fa-chevron-right text-xs text-gray-500"></i>
+                        </div>
+
+                        <!-- Nobel Center -->
+                        <div class="p-3.5 flex items-center justify-between hover:bg-white/5 cursor-pointer">
+                            <div class="flex items-center space-x-3">
+                                <i class="fa-solid fa-award text-amber-400 text-base"></i>
+                                <span>নোবেল সেন্টার</span>
+                            </div>
+                            <i class="fa-solid fa-chevron-right text-xs text-gray-500"></i>
+                        </div>
+
+                        <!-- Asset Level -->
+                        <div class="p-3.5 flex items-center justify-between hover:bg-white/5 cursor-pointer">
+                            <div class="flex items-center space-x-3">
+                                <i class="fa-solid fa-shield text-emerald-400 text-base"></i>
+                                <span>সম্পদের স্তর</span>
+                            </div>
+                            <i class="fa-solid fa-chevron-right text-xs text-gray-500"></i>
+                        </div>
+
+                        <!-- Shop -->
+                        <div class="p-3.5 flex items-center justify-between hover:bg-white/5 cursor-pointer">
+                            <div class="flex items-center space-x-3">
+                                <i class="fa-solid fa-store text-pink-400 text-base"></i>
+                                <span>দোকান (Shop)</span>
+                            </div>
+                            <i class="fa-solid fa-chevron-right text-xs text-gray-500"></i>
+                        </div>
+
+                        <!-- Invite Friends -->
+                        <div class="p-3.5 flex items-center justify-between hover:bg-white/5 cursor-pointer">
+                            <div class="flex items-center space-x-3">
+                                <i class="fa-solid fa-user-plus text-cyan-400 text-base"></i>
+                                <span>বন্ধুদের আমন্ত্রণ</span>
+                            </div>
+                            <i class="fa-solid fa-chevron-right text-xs text-gray-500"></i>
+                        </div>
+
+                        <!-- Settings -->
+                        <div onclick="openSettings()" class="p-3.5 flex items-center justify-between hover:bg-white/5 cursor-pointer">
+                            <div class="flex items-center space-x-3">
+                                <i class="fa-solid fa-sliders text-gray-400 text-base"></i>
+                                <span>সেটিংস</span>
+                            </div>
+                            <i class="fa-solid fa-chevron-right text-xs text-gray-500"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ------------------------------------------------------------- -->
+            <!-- OVERLAY SCREEN: VOICE PARTY ROOM (Matches Video 01:40) -->
+            <!-- ------------------------------------------------------------- -->
+            <div id="screen-room-overlay" class="hidden absolute inset-0 z-50 bg-[#0B0914] flex flex-col justify-between p-4 overflow-hidden">
+                <!-- Room Header -->
+                <div class="flex items-center justify-between text-white pt-2">
+                    <div class="flex items-center space-x-2">
+                        <button onclick="closePartyRoom()" class="w-8 h-8 rounded-full bg-black/40 flex items-center justify-center text-gray-300">
+                            <i class="fa-solid fa-chevron-left"></i>
+                        </button>
+                        <div>
+                            <div class="h-4 bg-slate-800 rounded w-24"></div>
+                            <div class="text-[10px] text-emerald-400 flex items-center gap-1">
+                                <span class="w-1.5 h-1.5 bg-emerald-400 rounded-full animate-ping"></span> ID: -----
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="flex items-center space-x-2">
+                        <button class="bg-purple-600/30 text-purple-300 text-xs px-3 py-1 rounded-full border border-purple-500/30">
+                            + ফলো
+                        </button>
+                        <button onclick="closePartyRoom()" class="w-8 h-8 rounded-full bg-black/40 flex items-center justify-center text-gray-300">
+                            <i class="fa-solid fa-xmark"></i>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- 9-SEAT VOICE STAGE GRID (Blank Circles) -->
+                <div class="my-auto py-4">
+                    <!-- Host Seat (Top Center) -->
+                    <div class="flex flex-col items-center mb-6">
+                        <div class="relative">
+                            <div class="w-16 h-16 rounded-full bg-slate-800/80 border-2 border-amber-400 flex items-center justify-center shadow-lg shadow-purple-500/20">
+                                <i class="fa-solid fa-crown text-amber-400 text-xl"></i>
+                            </div>
+                            <span class="absolute -bottom-1 bg-amber-500 text-slate-950 text-[9px] font-bold px-1.5 py-0.2 rounded-full left-1/2 -translate-x-1/2">HOST</span>
+                        </div>
+                        <div class="h-3 bg-slate-800 rounded w-16 mt-2"></div>
+                    </div>
+
+                    <!-- 8 Seat Grid (2 rows of 4) -->
+                    <div class="grid grid-cols-4 gap-y-5 gap-x-2 px-2">
+                        <!-- Seat 1 -->
+                        <div class="flex flex-col items-center">
+                            <div class="w-12 h-12 rounded-full bg-slate-900 border border-white/10 flex items-center justify-center text-slate-700">
+                                <i class="fa-solid fa-[#1] font-bold text-xs">1</i>
+                            </div>
+                            <div class="h-2.5 bg-slate-800 rounded w-10 mt-1.5"></div>
+                        </div>
+                        <!-- Seat 2 -->
+                        <div class="flex flex-col items-center">
+                            <div class="w-12 h-12 rounded-full bg-slate-900 border border-white/10 flex items-center justify-center text-slate-700">
+                                <i class="fa-solid fa-[#2] font-bold text-xs">2</i>
+                            </div>
+                            <div class="h-2.5 bg-slate-800 rounded w-10 mt-1.5"></div>
+                        </div>
+                        <!-- Seat 3 -->
+                        <div class="flex flex-col items-center">
+                            <div class="w-12 h-12 rounded-full bg-slate-900 border border-white/10 flex items-center justify-center text-slate-700">
+                                <i class="fa-solid fa-[#3] font-bold text-xs">3</i>
+                            </div>
+                            <div class="h-2.5 bg-slate-800 rounded w-10 mt-1.5"></div>
+                        </div>
+                        <!-- Seat 4 -->
+                        <div class="flex flex-col items-center">
+                            <div class="w-12 h-12 rounded-full bg-slate-900 border border-white/10 flex items-center justify-center text-slate-700">
+                                <i class="fa-solid fa-[#4] font-bold text-xs">4</i>
+                            </div>
+                            <div class="h-2.5 bg-slate-800 rounded w-10 mt-1.5"></div>
+                        </div>
+                        <!-- Seat 5 -->
+                        <div class="flex flex-col items-center">
+                            <div class="w-12 h-12 rounded-full bg-slate-900 border border-white/10 flex items-center justify-center text-slate-700">
+                                <i class="fa-solid fa-[#5] font-bold text-xs">5</i>
+                            </div>
+                            <div class="h-2.5 bg-slate-800 rounded w-10 mt-1.5"></div>
+                        </div>
+                        <!-- Seat 6 -->
+                        <div class="flex flex-col items-center">
+                            <div class="w-12 h-12 rounded-full bg-slate-900 border border-white/10 flex items-center justify-center text-slate-700">
+                                <i class="fa-solid fa-[#6] font-bold text-xs">6</i>
+                            </div>
+                            <div class="h-2.5 bg-slate-800 rounded w-10 mt-1.5"></div>
+                        </div>
+                        <!-- Seat 7 -->
+                        <div class="flex flex-col items-center">
+                            <div class="w-12 h-12 rounded-full bg-slate-900 border border-white/10 flex items-center justify-center text-slate-700">
+                                <i class="fa-solid fa-[#7] font-bold text-xs">7</i>
+                            </div>
+                            <div class="h-2.5 bg-slate-800 rounded w-10 mt-1.5"></div>
+                        </div>
+                        <!-- Seat 8 -->
+                        <div class="flex flex-col items-center">
+                            <div class="w-12 h-12 rounded-full bg-slate-900 border border-white/10 flex items-center justify-center text-slate-700">
+                                <i class="fa-solid fa-[#8] font-bold text-xs">8</i>
+                            </div>
+                            <div class="h-2.5 bg-slate-800 rounded w-10 mt-1.5"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Live Chat Message Stream Box -->
+                <div class="h-28 overflow-y-auto no-scrollbar space-y-2 mb-3 bg-black/30 rounded-xl p-2.5 text-xs">
+                    <div class="bg-purple-900/40 text-purple-300 p-1.5 rounded-lg border border-purple-500/20 text-[11px]">
+                        📢 স্বাগতম! যেকোনো অনাকাঙ্ক্ষিত আচরণ প্রতিরোধে আমাদের নিয়ম মেনে চলুন।
+                    </div>
+                    <div class="flex items-start space-x-1.5 text-gray-300">
+                        <span class="bg-gray-800 px-1.5 py-0.5 rounded text-[10px] text-amber-400">মেম্বার</span>
+                        <span class="text-gray-400">ইউজার:</span>
+                        <span>রুম সংযোগ করা হয়েছে</span>
+                    </div>
+                </div>
+
+                <!-- Bottom Room Controls Bar -->
+                <div class="flex items-center space-x-2">
+                    <input type="text" placeholder="একটি বার্তা লিখুন..." class="flex-1 bg-gray-900/90 border border-white/10 rounded-full px-4 py-2 text-xs text-white focus:outline-none">
+                    
+                    <button class="w-9 h-9 rounded-full bg-gray-800 flex items-center justify-center text-gray-300">
+                        <i class="fa-solid fa-microphone text-xs"></i>
+                    </button>
+
+                    <button class="w-9 h-9 rounded-full btn-gradient flex items-center justify-center text-white shadow-md">
+                        <i class="fa-solid fa-gift text-xs"></i>
+                    </button>
+                </div>
+            </div>
+
+            <!-- ------------------------------------------------------------- -->
+            <!-- OVERLAY SCREEN: SETTINGS (Matches Screenshot 00:44) -->
+            <!-- ------------------------------------------------------------- -->
+            <div id="screen-settings" class="hidden absolute inset-0 z-50 bg-[#0F0F17] flex flex-col overflow-y-auto no-scrollbar">
+                <!-- Settings Top Header -->
+                <div class="p-4 sticky top-0 bg-[#0F0F17] border-b border-white/5 flex items-center space-x-3 z-10">
+                    <button onclick="closeSettings()" class="text-gray-300 text-lg">
+                        <i class="fa-solid fa-chevron-left"></i>
+                    </button>
+                    <h2 class="text-base font-bold text-white">সেটিংস</h2>
+                </div>
+
+                <!-- Options List -->
+                <div class="p-4 space-y-3">
+                    <div class="bg-gray-900 rounded-2xl divide-y divide-white/5 text-sm">
+                        <div class="p-3.5 flex items-center justify-between">
+                            <span class="text-gray-300">ভেরিফিকেশন</span>
+                            <span class="text-xs text-rose-400">১ যাচাইকৃত নয়</span>
+                        </div>
+                        <div class="p-3.5 flex items-center justify-between">
+                            <span class="text-gray-300">অ্যাকাউন্ট নিরাপত্তা</span>
+                            <span class="text-xs text-amber-400">Low Risk</span>
+                        </div>
+                        <div class="p-3.5 flex items-center justify-between">
+                            <span class="text-gray-300">অ্যাপের ভাষা</span>
+                            <span class="text-xs text-gray-400">বাংলা</span>
+                        </div>
+                        <div class="p-3.5 flex items-center justify-between">
+                            <span class="text-gray-300">গোপনীয়তা সেটিংস</span>
+                            <i class="fa-solid fa-chevron-right text-xs text-gray-500"></i>
+                        </div>
+                    </div>
+
+                    <div class="bg-gray-900 rounded-2xl divide-y divide-white/5 text-sm">
+                        <div class="p-3.5 flex items-center justify-between">
+                            <span class="text-gray-300">কাস্টমার সাপোর্ট</span>
+                            <i class="fa-solid fa-chevron-right text-xs text-gray-500"></i>
+                        </div>
+                        <div class="p-3.5 flex items-center justify-between">
+                            <span class="text-gray-300">ভার্সন আপডেট</span>
+                            <span class="text-xs text-gray-500">1.6.0.26</span>
+                        </div>
+                        <div class="p-3.5 flex items-center justify-between">
+                            <span class="text-gray-300">ইমেজ ক্যাশে পরিষ্কার করুন</span>
+                            <span class="text-xs text-gray-500">8.3MB</span>
+                        </div>
+                    </div>
+
+                    <!-- Log Out Button -->
+                    <button onclick="switchTab('login')" class="w-full bg-gray-900 text-rose-500 font-semibold py-3.5 rounded-2xl text-center text-sm border border-rose-500/20 active:scale-95 transition">
+                        লগ আউট
+                    </button>
+                </div>
+            </div>
+
+        </div>
+
+        <!-- ------------------------------------------------------------- -->
+        <!-- BOTTOM NAVIGATION BAR (5 TABS) -->
+        <!-- ------------------------------------------------------------- -->
+        <div id="bottom-nav" class="h-16 bg-[#0B0914] border-t border-white/5 flex items-center justify-around px-2 relative z-30">
+            <!-- Tab 1: Live -->
+            <button onclick="switchTab('live')" id="nav-live" class="nav-btn flex flex-col items-center justify-center text-gray-500 w-1/5 py-1">
+                <i class="fa-solid fa-heart text-lg mb-0.5"></i>
+                <span class="text-[10px]">লাইভ</span>
+            </button>
+
+            <!-- Tab 2: Feed / Moments -->
+            <button onclick="switchTab('moments')" id="nav-moments" class="nav-btn flex flex-col items-center justify-center text-gray-500 w-1/5 py-1">
+                <i class="fa-regular fa-compass text-lg mb-0.5"></i>
+                <span class="text-[10px]">মুহূর্তগুলো</span>
+            </button>
+
+            <!-- Tab 3: Rooms (Center Focus) -->
+            <button onclick="switchTab('rooms')" id="nav-rooms" class="nav-btn flex flex-col items-center justify-center text-gray-500 w-1/5 py-1">
+                <div class="w-10 h-10 rounded-full btn-gradient flex items-center justify-center text-white -mt-5 shadow-lg shadow-purple-500/40 border-2 border-[#0F0F17]">
+                    <i class="fa-solid fa-microphone text-sm"></i>
+                </div>
+                <span class="text-[10px] mt-0.5">রুম</span>
+            </button>
+
+            <!-- Tab 4: Chats -->
+            <button onclick="switchTab('chats')" id="nav-chats" class="nav-btn flex flex-col items-center justify-center text-gray-500 w-1/5 py-1 relative">
+                <i class="fa-regular fa-comment-dots text-lg mb-0.5"></i>
+                <span class="text-[10px]">চ্যাট</span>
+                <span class="absolute top-1 right-3 w-2 h-2 bg-rose-500 rounded-full"></span>
+            </button>
+
+            <!-- Tab 5: Profile / 'আমি' -->
+            <button onclick="switchTab('profile')" id="nav-profile" class="nav-btn flex flex-col items-center justify-center text-purple-400 w-1/5 py-1">
+                <i class="fa-solid fa-user text-lg mb-0.5"></i>
+                <span class="text-[10px]">আমি</span>
+            </button>
+        </div>
+
+    </div>
+
+    <!-- APP INTERACTION SCRIPT -->
+    <script>
+        // Tab Navigation Controller
+        function switchTab(tabId) {
+            // Hide all tab screens
+            const screens = document.querySelectorAll('.tab-content');
+            screens.forEach(screen => screen.classList.add('hidden'));
+
+            // Hide overlay screens
+            document.getElementById('screen-login').classList.add('hidden');
+            document.getElementById('bottom-nav').classList.remove('hidden');
+
+            if (tabId === 'login') {
+                document.getElementById('screen-login').classList.remove('hidden');
+                document.getElementById('bottom-nav').classList.add('hidden');
+                return;
+            }
+
+            // Show selected screen
+            const targetScreen = document.getElementById('tab-' + tabId);
+            if (targetScreen) {
+                targetScreen.classList.remove('hidden');
+            }
+
+            // Update Navigation Bar Styling
+            const navButtons = document.querySelectorAll('.nav-btn');
+            navButtons.forEach(btn => {
+                btn.classList.remove('text-purple-400');
+                btn.classList.add('text-gray-500');
+            });
+
+            const activeNav = document.getElementById('nav-' + tabId);
+            if (activeNav) {
+                activeNav.classList.remove('text-gray-500');
+                activeNav.classList.add('text-purple-400');
+            }
+        }
+
+        // Email Form Popup
+        function showEmailForm() {
+            document.getElementById('email-modal').classList.remove('hidden');
+        }
+
+        function hideEmailForm() {
+            document.getElementById('email-modal').classList.add('hidden');
+        }
+
+        // Settings Screen Toggle
+        function openSettings() {
+            document.getElementById('screen-settings').classList.remove('hidden');
+        }
+
+        function closeSettings() {
+            document.getElementById('screen-settings').classList.add('hidden');
+        }
+
+        // Voice Party Room Overlay Toggle
+        function openPartyRoom() {
+            document.getElementById('screen-room-overlay').classList.remove('hidden');
+        }
+
+        function closePartyRoom() {
+            document.getElementById('screen-room-overlay').classList.add('hidden');
+        }
+
+        // Default setup: Start at Profile Screen
+        window.onload = function() {
+            switchTab('profile');
+        };
+    </script>
+</body>
+</html>
+```
